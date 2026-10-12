@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="PluggrClient/PluggrClient.csproj" Id="ddd4018c-3f2e-4788-9546-68374c9735b6" />
+  <Project Path="PluggrDemoClient/PluggrDemoClient.csproj" Id="2e5bf222-8cf3-4dd4-bbc7-69dbecbc590a" />
+  <Project Path="PluggrDemoSender/PluggrDemoSender.csproj" Id="e00db656-2f02-49d3-9520-97fe1dce4aca" />
+  <Project Path="PluggrServer/PluggrServer.csproj" />
+  <Project Path="PluggrShared/PluggrShared.csproj" />
+</Solution>

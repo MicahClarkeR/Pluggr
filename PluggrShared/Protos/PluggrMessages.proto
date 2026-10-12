@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+option csharp_namespace = "PluggrShared.Protos";
+
+package PluggrShared;
+
+service PluggrService
+{
+	rpc RegisterClient (RegisterClientRequest) returns (RegisterClientResponse);
+	rpc DeregisterClient (DeregisterClientRequest) returns (DeregisterClientResponse);
+	rpc GetClientInfo (GetClientInfoRequest) returns (GetClientInfoResponse);
+	rpc SendMessage (SendMessageRequest) returns (SendMessageResponse);
+}
+
+message RegisterClientRequest
+{
+	string service = 1;
+	uint32 port = 2;
+}
+
+message RegisterClientResponse
+{
+    uint32 status = 1;
+    string guid = 2;
+    string message = 3;
+}
+
+message DeregisterClientRequest
+{
+	string guid = 1;
+	string address = 2;
+}
+
+message DeregisterClientResponse
+{
+	uint32 status = 1;
+	string message = 2;
+}
+
+message SendMessageRequest
+{
+	string clientGuid = 1;
+	string endpoint = 2;
+	bytes data = 3;
+}
+
+message SendMessageResponse
+{
+	uint32 status = 1;
+	bytes data = 2;
+	string message = 3;
+	uint32 messageStatus = 4;
+}
+
+message GetClientInfoRequest
+{
+	string service = 1;
+}
+
+message GetClientInfoResponse
+{
+	uint32 status = 1;
+	string clientGuid = 2;
+	string message = 3;
+}

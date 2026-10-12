@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+option csharp_namespace = "PluggrShared.Protos";
+
+package PluggrShared;
+
+service PluggrClientService
+{
+	rpc SendClientMessage (SendClientMessageRequest) returns (SendClientMessageResponse);
+}
+
+message SendClientMessageRequest
+{
+	string endpoint = 1;
+	bytes data = 2;
+}
+
+message SendClientMessageResponse
+{
+	uint32 status = 1;
+	bytes data = 2;
+	string message = 3;
+}

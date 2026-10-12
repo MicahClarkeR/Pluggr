@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "PluggrShared": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "http://localhost:64093;http://localhost:64094"
+    }
+  }
+}
