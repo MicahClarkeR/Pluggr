@@ -1,5 +1,6 @@
 ﻿using Google.Protobuf;
 using PluggrClient;
+using PluggrShared.Helpers;
 using PluggrShared.Protos;
 using System.Reflection;
 using System.Text;
@@ -25,22 +26,24 @@ namespace PluggrDemoSender
 
             Thread.Sleep(1000);
 
-            Console.WriteLine("Type message to send:");
-            string message = Console.ReadLine() ?? string.Empty;
-
-            SendMessageRequest request = new SendMessageRequest()
+            while (true)
             {
-                ClientGuid = info.ClientGuid.ToString(),
-                Endpoint = "Method",
-                Data = ByteString.CopyFromUtf8($"<Message>{message}</Message>")
-            };
-            
-            SendMessageResponse response = _senderClient.ServerClient.SendMessage(request);
+                Console.WriteLine("Type message to send:");
+                string message = Console.ReadLine() ?? string.Empty;
 
-            Console.WriteLine($"Response message: {response.Data.ToStringUtf8()}");
+                SendMessageRequest request = new SendMessageRequest()
+                {
+                    ClientGuid = info.ClientGuid.ToString(),
+                    Endpoint = "Method",
+                    Data = ByteString.CopyFromUtf8($"<xml><Message>{message}</Message></xml>")
+                };
 
-            Console.ReadKey();
+                SendMessageResponse response = _senderClient.ServerClient.SendMessage(request);
 
+                Console.WriteLine($"Response – {response.Data.ToStringUtf8()}");
+
+                Console.ReadKey();
+            }
         }
     }
 }

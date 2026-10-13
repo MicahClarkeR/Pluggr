@@ -1,9 +1,11 @@
 ﻿using Google.Protobuf;
 using PluggrClient;
+using PluggrShared.Helpers;
 using PluggrShared.Protos;
 using System.Reflection;
 using System.Text;
 using System.Xml;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 
 namespace PluggrDemoClient
@@ -29,17 +31,12 @@ namespace PluggrDemoClient
 
         public static InvokeMethodResponse RegisteredMethod(byte[] data)
         {
-            using MemoryStream stream = new MemoryStream(data);
-            XmlReader reader = XmlReader.Create(stream);
             InvokeMethodResponse response = new InvokeMethodResponse();
+            XElement xml = DataHelper.BytesToXElement(data);
+            XElement? message = xml.Elements().FirstOrDefault();
+            string responseString = $"Request message recieved: {message?.Value ?? "Valid XML was not given."}";
 
-            while (reader.Read())
-            {
-                if (reader.Value != string.Empty)
-                {
-                    response.Data = Encoding.UTF8.GetBytes(reader.Value);
-                }
-            }
+            response.Data = DataHelper.StringToBytes(responseString);
 
             return response;
         }
