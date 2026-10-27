@@ -11,10 +11,34 @@ namespace PluggrServer.Clients
     /// </summary>
     internal class Client : IDisposable
     {
+        /// <summary>
+        /// Internal ID of this Pluggr Client once registered.
+        /// </summary>
         internal readonly Guid ID;
-        internal readonly string ServiceName, Address;
+        
+        /// <summary>
+        /// Name of the registered service this Client represents, attained from Pluggr Service it registers itself.
+        /// </summary>
+        internal readonly string ServiceName;
+
+        /// <summary>
+        /// Internal address for the Pluggr Client that was registered.
+        /// </summary>
+        internal readonly string Address;
+
+        /// <summary>
+        /// Underlying localhost port for this Client.
+        /// </summary>
         public readonly uint Port;
+
+        /// <summary>
+        /// Private Client Service that allows this Client to send messages to the Pluggr Client.
+        /// </summary>
         private readonly PluggrClientServiceClient _client;
+
+        /// <summary>
+        /// Internal GRPC channel used for the Client.
+        /// </summary>
         private readonly GrpcChannel _channel;
         
         /// <summary>
@@ -34,6 +58,12 @@ namespace PluggrServer.Clients
             _client = new PluggrClientServiceClient(_channel);
         }
 
+        /// <summary>
+        /// Send a message to the underlying Pluggr Client.
+        /// </summary>
+        /// <param name="request">Inbound request to send to client..</param>
+        /// <param name="options">Options for calls made to client../param>
+        /// <returns></returns>
         internal SendClientMessageResponse SendMessage(SendClientMessageRequest request, CallOptions? options = null) => _client.SendClientMessage(request, options ?? new CallOptions());
 
         public void Dispose()

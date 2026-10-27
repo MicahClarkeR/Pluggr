@@ -1,5 +1,8 @@
 ﻿namespace PluggrShared
 {
+    /// <summary>
+    /// Helper class to make creating Loggers more simple.
+    /// </summary>
     public static class LoggerCreator
     {
         internal static LoggerFactory _factory = new LoggerFactory();

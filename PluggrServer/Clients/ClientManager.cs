@@ -110,7 +110,13 @@ namespace PluggrServer.Clients
             return found != null;
         }
 
-        internal bool FindClientById(Guid id, out Client found)
+        /// <summary>
+        /// Check if a Client is registered to the Client Manager by its ID and provides it via an `out` parameter.
+        /// </summary>
+        /// <param name="id">ID of Pluggr Client to attempt finding.</param>
+        /// <param name="found">The possibly found Pluggr Client, null of nothing was found.</param>
+        /// <returns>If a Pluggr Client was found registered to this manager.</returns>
+        internal bool FindClientById(Guid id, out Client? found)
         {
             found = null;
 

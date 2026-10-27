@@ -7,6 +7,9 @@ using static PluggrShared.Protos.PluggrClientService;
 
 namespace PluggrServer.Services
 {
+    /// <summary>
+    /// The underlying service for the Pluggr Server.
+    /// </summary>
     public class PluggrService : PluggrShared.Protos.PluggrService.PluggrServiceBase
     {
         private readonly ILogger _logger;
@@ -40,6 +43,12 @@ namespace PluggrServer.Services
             });
         }
 
+        /// <summary>
+        /// Attempts to de-register a Pluggr Client from the Server.
+        /// </summary>
+        /// <param name="request">Inbound request from a Client.</param>
+        /// <param name="context">Context for a sever-side call./param>
+        /// <returns>Response to be returned to client.</returns>
         public override Task<DeregisterClientResponse> DeregisterClient(DeregisterClientRequest request, ServerCallContext context)
         {
             bool success = ClientManager.DeregisterClient(request.Guid, out string? message);
@@ -51,13 +60,19 @@ namespace PluggrServer.Services
             });
         }
 
+        /// <summary>
+        /// Attempts to forward a message from a Pluggr Client to another registered Client.
+        /// </summary>
+        /// <param name="request">Inbound request from Client.</param>
+        /// <param name="context">Context for a sever-side call.</param>
+        /// <returns>Response to be returned to client.</returns>
         public override Task<SendMessageResponse> SendMessage(SendMessageRequest request, ServerCallContext context)
         {
             SendMessageResponse messageResponse;
 
             if (Guid.TryParse(request.ClientGuid, out Guid clientId))
             {
-                if (ClientManager.FindClientById(clientId, out Client client))
+                if (ClientManager.FindClientById(clientId, out Client? client) && client != null)
                 {
                     SendClientMessageRequest message = new SendClientMessageRequest()
                     {
@@ -96,11 +111,17 @@ namespace PluggrServer.Services
             return Task.FromResult(messageResponse);
         }
 
+        /// <summary>
+        /// Attempts to get and return the details of a registered Pluggr Client.
+        /// </summary>
+        /// <param name="request">Inbound request from Client.</param>
+        /// <param name="context">Context for a sever-side call.</param>
+        /// <returns>Response to be returned to client.</returns>
         public override Task<GetClientInfoResponse> GetClientInfo(GetClientInfoRequest request, ServerCallContext context)
         {
             GetClientInfoResponse response;
 
-            if (ClientManager.FindClientByName(request.Service, out Client client))
+            if (ClientManager.FindClientByName(request.Service, out Client? client) && client != null)
             {
                 response = new GetClientInfoResponse()
                 {
