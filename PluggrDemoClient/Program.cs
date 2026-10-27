@@ -36,6 +36,7 @@ namespace PluggrDemoClient
             XElement? message = xml.Elements().FirstOrDefault();
             string responseString = $"Request message recieved: {message?.Value ?? "Valid XML was not given."}";
 
+            Console.WriteLine(responseString);
             response.Data = DataHelper.StringToBytes(responseString);
 
             return response;
